@@ -87,7 +87,7 @@ int main(int argc, char **argv)
 {  
     if(argc != 4)
     {
-        cerr << endl << "Usage: ./mono_euroc path_to_vocabulary path_to_settings raspberry_ip" << endl;
+        cerr << endl << "Usage: ./slam_http path_to_vocabulary path_to_settings raspberry_ip" << endl;
         return 1;
     }
 
@@ -142,17 +142,20 @@ int main(int argc, char **argv)
 #endif
         }
 
+        /*
 #ifdef COMPILEDWITHC11
         std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
 #else
         std::chrono::monotonic_clock::time_point t1 = std::chrono::monotonic_clock::now();
 #endif
+        */
 
         // Pass the image to the SLAM system
         // cout << "tframe = " << tframe << endl;
         SLAM.TrackMonocular(im, tframe); // TODO change to monocular_inertial
         tframe++;
 
+        /*
 #ifdef COMPILEDWITHC11
         std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
 #else
@@ -165,6 +168,7 @@ int main(int argc, char **argv)
 #endif
 
         double ttrack= std::chrono::duration_cast<std::chrono::duration<double> >(t2 - t1).count();
+        */
         
         /* 네트워크 딜레이로 인한 자동 프레임 드랍이 있기에 건너뜀
         // Wait to load the next frame

@@ -25,7 +25,11 @@ include_directories(
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/ORB_SLAM3/Thirdparty/g2o)
 
-add_executable(${PROJECT_NAME} src/slam.cc)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
+
+add_library(${PROJECT_NAME} SHARED
+    src/slam_http.cc
+)
 
 target_link_libraries(${PROJECT_NAME}
     ${OpenCV_LIBS}
@@ -33,7 +37,11 @@ target_link_libraries(${PROJECT_NAME}
     ${Pangolin_LIBRARIES}
     ${PROJECT_SOURCE_DIR}/ORB_SLAM3/Thirdparty/DBoW2/lib/libDBoW2.so
     ${PROJECT_SOURCE_DIR}/ORB_SLAM3/Thirdparty/g2o/lib/libg2o.so
+    ${PROJECT_SOURCE_DIR}/ORB_SLAM3/lib/libORB_SLAM3.so
     -lboost_serialization
     -lcrypto
     -lcurl
 )
+
+add_executable(slam_http src/slam_http.cc)
+target_link_libraries(slam_http ${PROJECT_NAME})

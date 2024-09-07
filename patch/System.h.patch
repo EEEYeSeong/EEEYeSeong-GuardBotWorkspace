@@ -1,0 +1,25 @@
+--- ORB_SLAM3/include/System.h	2024-09-07 21:39:10.477715400 +0900
++++ ORB_SLAM3/include/System.h	2024-09-07 21:39:03.255176900 +0900
+@@ -121,6 +121,11 @@
+     Sophus::SE3f TrackMonocular(const cv::Mat &im, const double &timestamp, const vector<IMU::Point>& vImuMeas = vector<IMU::Point>(), string filename="");
+ 
+ 
++    // Map structure that stores the pointers to all KeyFrames and MapPoints.
++    //Map* mpMap;
++    Atlas* mpAtlas;
++
++
+     // This stops local mapping thread (map building) and performs only camera tracking.
+     void ActivateLocalizationMode();
+     // This resumes local mapping thread and performs SLAM again.
+@@ -208,10 +213,6 @@
+     // KeyFrame database for place recognition (relocalization and loop detection).
+     KeyFrameDatabase* mpKeyFrameDatabase;
+ 
+-    // Map structure that stores the pointers to all KeyFrames and MapPoints.
+-    //Map* mpMap;
+-    Atlas* mpAtlas;
+-
+     // Tracker. It receives a frame and computes the associated camera pose.
+     // It also decides when to insert a new keyframe, create some new MapPoints and
+     // performs relocalization if tracking fails.
