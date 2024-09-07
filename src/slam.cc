@@ -87,7 +87,7 @@ int main(int argc, char **argv)
 {  
     if(argc != 4)
     {
-        cerr << endl << "Usage: ./mono_euroc path_to_vocabulary path_to_settings" << endl;
+        cerr << endl << "Usage: ./mono_euroc path_to_vocabulary path_to_settings raspberry_ip" << endl;
         return 1;
     }
 
