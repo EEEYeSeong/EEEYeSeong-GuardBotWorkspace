@@ -87,11 +87,11 @@ int main(int argc, char **argv)
 {  
     if(argc != 4)
     {
-        cerr << endl << "Usage: ./slam_http path_to_vocabulary path_to_settings raspberry_ip" << endl;
+        cerr << endl << "Usage: ./slam_http path_to_vocabulary path_to_settings server_addr" << endl;
         return 1;
     }
 
-    string url = string("http://") + argv[3] + ":5000/capture";
+    string url = string("http://") + argv[3] + "/capture";
     cout << "URL: " << url << endl;
 
     cout << endl << "-------" << endl;
@@ -152,7 +152,10 @@ int main(int argc, char **argv)
 
         // Pass the image to the SLAM system
         // cout << "tframe = " << tframe << endl;
-        SLAM.TrackMonocular(im, tframe); // TODO change to monocular_inertial
+        const auto now = std::chrono::system_clock::now();
+        auto duration = now.time_since_epoch();
+        double stamp = std::chrono::duration<double>(duration).count()*1e-3;
+        SLAM.TrackMonocular(im, stamp); // TODO change to monocular_inertial
         tframe++;
 
         /*

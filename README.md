@@ -12,5 +12,11 @@ chmod +x build.sh
 ./build.sh
 ```
 
+# Run
+디바이스와 연결
+```bash
+./bin/slam_http ORB_SLAM3/Vocabulary/ORBvoc.txt ./config/DevCamera1.yaml 192.168.1.3:5000
+```
+
 # LICENSE
 GPL v3 라이선스를 따릅니다.
