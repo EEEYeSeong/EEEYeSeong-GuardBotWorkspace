@@ -38,6 +38,8 @@ target_link_libraries(${PROJECT_NAME}
     ${PROJECT_SOURCE_DIR}/ORB_SLAM3/Thirdparty/DBoW2/lib/libDBoW2.so
     ${PROJECT_SOURCE_DIR}/ORB_SLAM3/Thirdparty/g2o/lib/libg2o.so
     ${PROJECT_SOURCE_DIR}/ORB_SLAM3/lib/libORB_SLAM3.so
+    /usr/lib/x86_64-linux-gnu/libmosquitto.so
+    /usr/lib/x86_64-linux-gnu/libmosquitto.so.1
     -lboost_serialization
     -lcrypto
     -lcurl
