@@ -1,6 +1,6 @@
 # GuardBot
 고1 정보 R&amp;E 산출물 관련 소스코드
-![Image1](~@source/assets/image1.png)
+![Image1](/assets/image1.png)
 
 <br>
 
