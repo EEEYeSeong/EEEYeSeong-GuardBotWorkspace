@@ -10,11 +10,9 @@
 #include <atomic>
 #include <thread>
 #include <mqtt/async_client.h>
-#include <nlohmann/json.hpp>
 
 using namespace std;
 using namespace cv;
-using json = nlohmann::json;
 
 const int cell_size = 800;
 atomic<unsigned long long> atomic_cnts[2][cell_size][cell_size]; // 0:visited, 1:occupied

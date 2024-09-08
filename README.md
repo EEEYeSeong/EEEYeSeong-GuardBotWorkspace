@@ -14,7 +14,9 @@
 ```bash
 git clone https://github.com/EEEYeSeong/GuardBot.git GuardBot
 cd GuardBot
+chmod +x patch.sh
 chmod +x build.sh
+./patch.sh
 ./build.sh
 ```
 
