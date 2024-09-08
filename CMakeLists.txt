@@ -29,6 +29,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
 add_library(${PROJECT_NAME} SHARED
     src/slam_http.cc
+    src/slam_mqtt.cc
+    respberry_pi/slam_mqtt.cc
 )
 
 target_link_libraries(${PROJECT_NAME}
@@ -47,3 +49,9 @@ target_link_libraries(${PROJECT_NAME}
 
 add_executable(slam_http src/slam_http.cc)
 target_link_libraries(slam_http ${PROJECT_NAME})
+
+add_executable(slam_mqtt src/slam_mqtt.cc)
+target_link_libraries(slam_mqtt ${PROJECT_NAME})
+
+add_executable(slam_mqtt_rasp respberry_pi/slam_mqtt.cc)
+target_link_libraries(slam_mqtt_rasp ${PROJECT_NAME})
