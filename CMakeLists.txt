@@ -13,6 +13,7 @@ MESSAGE(${OpenCV_VERSION})
 
 find_package(Eigen3 3.1.0 REQUIRED)
 find_package(Pangolin REQUIRED)
+find_package(PahoMqttCpp REQUIRED)
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/ORB_SLAM3
@@ -27,24 +28,22 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/ORB_SLAM3/Thirdparty/g2o)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
-add_library(${PROJECT_NAME} SHARED
-    src/slam_http.cc
-    src/slam_mqtt.cc
-    respberry_pi/slam_mqtt.cc
-)
+add_library(${PROJECT_NAME} INTERFACE)
 
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(${PROJECT_NAME} INTERFACE
     ${OpenCV_LIBS}
     ${EIGEN3_LIBS}
     ${Pangolin_LIBRARIES}
     ${PROJECT_SOURCE_DIR}/ORB_SLAM3/Thirdparty/DBoW2/lib/libDBoW2.so
     ${PROJECT_SOURCE_DIR}/ORB_SLAM3/Thirdparty/g2o/lib/libg2o.so
     ${PROJECT_SOURCE_DIR}/ORB_SLAM3/lib/libORB_SLAM3.so
-    /usr/lib/x86_64-linux-gnu/libmosquitto.so
-    /usr/lib/x86_64-linux-gnu/libmosquitto.so.1
     -lboost_serialization
     -lcrypto
     -lcurl
+
+    # 난 MQTT가 밉다
+    -lpaho-mqtt3as
+    -lpaho-mqttpp3
 )
 
 add_executable(slam_http src/slam_http.cc)
@@ -53,5 +52,5 @@ target_link_libraries(slam_http ${PROJECT_NAME})
 add_executable(slam_mqtt src/slam_mqtt.cc)
 target_link_libraries(slam_mqtt ${PROJECT_NAME})
 
-add_executable(slam_mqtt_rasp respberry_pi/slam_mqtt.cc)
+add_executable(slam_mqtt_rasp raspberry_pi/slam_mqtt.cc)
 target_link_libraries(slam_mqtt_rasp ${PROJECT_NAME})

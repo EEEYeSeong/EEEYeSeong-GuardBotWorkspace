@@ -33,19 +33,23 @@ int main(int argc, char **argv)
 
     ORB_SLAM3::System SLAM(argv[1], argv[2], ORB_SLAM3::System::MONOCULAR, true);
 
-    const string server_address = "tcp://" + argv[3] + ":" + argv[4];
+    const string server_address = string("tcp://") + argv[3] + string(":") + argv[4];
     const string client_id = "mqtt_guardbot";
     const string topic = "img";
     const int qos = 0;
 
     mqtt::async_client cli(server_address, client_id);
-    mqtt::connect_options conn_opts;
-    // conn_opts.set_keep_alive_interval(20);
-    conn_opts.set_clean_session(true);
+    
+    auto connOpts = mqtt::connect_options_builder()
+		.clean_session(true)
+		.finalize();
 
-    cli.connect(conn_opts)->wait();
+    auto tok = cli.connect(connOpts);
+    auto rsp = tok->get_connect_response();
+    
     cli.subscribe(topic, qos)->wait();
-    cli.start_consuming();
+
+    cout << "Waiting for messages on topic: '" << topic << "'" << endl;
 
     thread thPoints(occupancy_grid, ref(SLAM));
     cout << server_address << endl;
@@ -57,8 +61,8 @@ int main(int argc, char **argv)
         uint64_t stamp;
         uchar* cstamp = (uchar*)&stamp;
 
-        const mqtt::const_message_ptr msg_ptr = cli.consume_message();
-        const auto data = msg_ptr->to_string();
+        auto msg = cli.consume_message();
+        const auto data = msg->to_string();
         for(int i = 0; i < 4; i++)
         {
             cbufsz[i] = data[3 - i];
@@ -85,7 +89,13 @@ int main(int argc, char **argv)
     }
     flag = 0;
     thPoints.join();
-    cli.disconnect();
+    if (cli.is_connected()) {
+        cout << "\nShutting down and disconnecting from the MQTT server..." << flush;
+        cli.unsubscribe(topic)->wait();
+        cli.stop_consuming();
+        cli.disconnect()->wait();
+        cout << "OK" << endl;
+    }
     SLAM.Shutdown();
 
     return EXIT_SUCCESS;

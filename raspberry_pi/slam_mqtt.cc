@@ -32,7 +32,7 @@ int main(int argc, char **argv)
     }
 
     cout << "Connected MQTT Broker on " << argv[1] << ":" << argv[2] << endl;
-    mqtt::async_client cli(argv[1] + ":" + argv[2], "pub_send");
+    mqtt::async_client cli(argv[1] + string(":") + argv[2], "pub_send");
     cli.connect()->wait();
     mqtt::topic topic(cli, "img", 0);
 

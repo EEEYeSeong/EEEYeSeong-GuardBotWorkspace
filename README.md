@@ -6,7 +6,7 @@
 
 # Requirements
 - libcurl4-openssl-dev
-- libmosquitto
+- paho.mqtt.cpp
 
 <br>
 

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motor Controller</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 18px;
+        }
+        input[type="range"] {
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Motor Controller</h1>
+
+    <label for="speed">Speed: <span id="speedValue">50</span></label><br>
+    <input type="range" id="speed" min="0" max="100" value="50" oninput="updateSpeedValue()"><br><br>
+
+    <button onclick="move('forward')">Forward</button><br>
+    <button onclick="move('left')">Left</button>
+    <button onclick="move('stop')">Stop</button>
+    <button onclick="move('right')">Right</button><br>
+    <button onclick="move('backward')">Backward</button>
+
+    <script>
+        let speed = 50;
+
+        function updateSpeedValue() {
+            speed = document.getElementById('speed').value;
+            document.getElementById('speedValue').innerText = speed;
+        }
+
+        function move(direction) {
+            fetch('/move', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    direction: direction,
+                    speed: speed,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
