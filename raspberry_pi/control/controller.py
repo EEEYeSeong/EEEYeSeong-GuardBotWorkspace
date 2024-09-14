@@ -5,13 +5,13 @@ from motor import MotorGpio, MotorController
 app = Flask(__name__)
 
 gpio_config = MotorGpio(
-    GPIO_ENABLE_A = 1    # Left
-    GPIO_ENABLE_B = 1    # Right
-    GPIO_IN1 = 1         # Left - F
-    GPIO_IN2 = 1         # Left - B
-    GPIO_IN3 = 1         # Right - F
-    GPIO_IN4 = 1         # Right - B
-    
+    GPIO_ENABLE_A = 33    # Left
+    GPIO_ENABLE_B = 35    # Right
+    GPIO_IN1 = 3          # Left - F
+    GPIO_IN2 = 5          # Left - B
+    GPIO_IN3 = 8          # Right - F
+    GPIO_IN4 = 10         # Right - B
+
     PWM_HZ = 1000
 )
 motor_controller = MotorController(gpio_config)

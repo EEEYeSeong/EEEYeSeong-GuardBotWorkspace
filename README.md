@@ -12,7 +12,7 @@
 
 # Build
 ```bash
-git clone https://github.com/EEEYeSeong/GuardBot.git GuardBot
+git clone --recursive https://github.com/EEEYeSeong/GuardBot.git GuardBot
 cd GuardBot
 chmod +x patch.sh
 chmod +x build.sh
